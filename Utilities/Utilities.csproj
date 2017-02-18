@@ -45,6 +45,12 @@
     <Compile Include="TypeSwitch.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Configuration\Configuration.csproj">
+      <Project>{597f46c6-347a-43c5-8db8-6cb7892bbbe9}</Project>
+      <Name>Configuration</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
