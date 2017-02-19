@@ -9,9 +9,9 @@ namespace Utilities
 {
 	public class Util
 	{
-		public static SqlDbType GetSqlDbType(Type type, string column)
+		public static SqlDbType GetSqlDbType(Type type, string propName)
 		{
-			var prop = type.GetProperty(column);
+			var prop = type.GetProperty(propName);
 			SqlDbType sqlType = SqlDbType.BigInt;
 
 			var ts = new TypeSwitch()
@@ -24,9 +24,9 @@ namespace Utilities
 			return sqlType;
 		}
 
-		public static object GetModelColumnValue(Type type, object model, string column)
+		public static object GetModelColumnValue(Type type, object model, string propName)
 		{
-			var prop = type.GetProperty(column);
+			var prop = type.GetProperty(propName);
 			if (prop != null)
 			{
 				var value = prop.GetValue(model, null);

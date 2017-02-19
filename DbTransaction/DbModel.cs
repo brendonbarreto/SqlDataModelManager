@@ -37,7 +37,7 @@ namespace DbTransaction
 
 		private PropertyInfo GetIdProperty()
 		{
-			return ModelType.GetProperty(Rules.GetIdName(ModelType));
+			return ModelType.GetProperty(Rules.GetModelIdName(ModelType));
 		}
 
 		private int GetIdValue()
@@ -48,11 +48,9 @@ namespace DbTransaction
 
 		public void Save(bool saveInheritance = true)
 		{
-			//IS PERSISTANT MODEL
 			var idProp = GetIdProperty();
 			if (Model != null && idProp != null)
 			{
-				//CONTAINS NO INHERITANCE
 				if (ModelType.BaseType == typeof(object) || !saveInheritance)
 				{
 					if (IsNew)
@@ -78,11 +76,12 @@ namespace DbTransaction
 			List<SqlParameter> pars = new List<SqlParameter>();
 			columns.ForEach(column =>
 			{
-				var value = Util.GetModelColumnValue(ModelType, Model, column);
+				var propName = Rules.ToPropertyName(ModelType, column);
+				var value = Util.GetModelColumnValue(ModelType, Model, propName);
 				pars.Add(new SqlParameter()
 				{
 					ParameterName = string.Concat("@", column),
-					SqlDbType = Util.GetSqlDbType(ModelType, column),
+					SqlDbType = Util.GetSqlDbType(ModelType, propName),
 					Value = value
 				});
 			});
@@ -92,18 +91,18 @@ namespace DbTransaction
 
 		private int Insert()
 		{
-			var columns = SchemaInfo.GetAllColumns(Rules.GetTableName(ModelType));
+			var columns = SchemaInfo.GetAllColumns(Rules.ToTableName(ModelType));
 			if (ModelType.BaseType == typeof(object))
 			{
-				columns.Remove(Rules.GetIdName(ModelType));
+				columns.Remove(Rules.GetTableIdName(ModelType));
 			}
 
 			List<SqlParameter> pars = GetSaveParameters(columns);
 
 			string sql = string.Format(@"INSERT INTO {0}({1}) OUTPUT inserted.{2} VALUES({3})",
-				Rules.GetTableName(ModelType),
+				Rules.ToTableName(ModelType),
 				string.Join(", ", columns),
-				Rules.GetIdName(ModelType),
+				Rules.GetTableIdName(ModelType),
 				string.Join(", ", columns.Select(m => string.Concat("@", m))));
 			int id = 0;
 			using (SqlConnection conn = new SqlConnection(Connection.ConnectionString))
@@ -123,7 +122,7 @@ namespace DbTransaction
 		private string GetUpdateFieldsString(List<SqlParameter> pars)
 		{
 			StringBuilder builder = new StringBuilder();
-			var uPars = pars.Where(m => m.ParameterName != string.Concat("@", Rules.GetIdName(ModelType)));
+			var uPars = pars.Where(m => m.ParameterName != string.Concat("@", Rules.GetTableIdName(ModelType)));
 			if (uPars != null && uPars.Count() > 0)
 			{
 				builder.Append("SET ");
@@ -146,11 +145,11 @@ namespace DbTransaction
 
 		private void Update()
 		{
-			var columns = SchemaInfo.GetAllColumns(Rules.GetTableName(ModelType));
+			var columns = SchemaInfo.GetAllColumns(Rules.ToTableName(ModelType));
 			List<SqlParameter> pars = GetSaveParameters(columns);
-			var idName = Rules.GetIdName(ModelType);
+			var idName = Rules.GetTableIdName(ModelType);
 			string sql = string.Format(@"UPDATE {0} {1} WHERE {2} = {3}",
-				Rules.GetTableName(ModelType),
+				Rules.ToTableName(ModelType),
 				GetUpdateFieldsString(pars),
 				idName,
 				string.Concat("@", idName));

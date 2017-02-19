@@ -8,8 +8,14 @@ namespace Configuration
 {
 	public interface IRules
 	{
-		string GetIdName(Type type);
+		string GetModelIdName(Type type);
 
-		string GetTableName(Type type);
+		string GetTableIdName(Type type);
+
+		string ToTableName(Type type);
+
+		string ToPropertyName(Type type, string columnName);
+
+		string ToColumnName(Type type, string propertyName);
 	}
 }
