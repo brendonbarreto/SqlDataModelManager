@@ -19,15 +19,15 @@ namespace DbTransaction
 
 	public class DbModel
 	{
-		public object Model { get; set; }
+		private object Model { get; set; }
 
-		public Type ModelType { get; set; }
+		private Type ModelType { get; set; }
 
-		public IRules Rules { get; set; }
+		private IRules Rules { get; set; }
 
-		public bool IsNew { get; set; }
+		private bool IsNew { get; set; }
 
-		public DbModel(Type type, object model)
+		protected DbModel(Type type, object model)
 		{
 			ModelType = type;
 			Model = model;

@@ -18,7 +18,8 @@ namespace Utilities
 				.Case<string>(() => sqlType = SqlDbType.VarChar)
 				.Case<int>(() => sqlType = SqlDbType.Int)
 				.Case<DateTime>(() => sqlType = SqlDbType.DateTime2)
-				.Case<bool>(() => sqlType = SqlDbType.Bit);
+				.Case<bool>(() => sqlType = SqlDbType.Bit)
+				.Case<decimal>(() => sqlType = SqlDbType.Decimal);
 
 			ts.Switch(prop.PropertyType);
 			return sqlType;

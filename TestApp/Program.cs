@@ -12,12 +12,15 @@ namespace TestApp
 	{
 		static void Main(string[] args)
 		{
-			var model = new PhysicalPerson();
-			model.Id = 0;
-			model.Name = "Brendon ijef";
-			model.BornDate = DateTime.Now;
-			var dbModel = new DbModel<PhysicalPerson>(model);
 			Connection.ConnectionString = "Server=localhost;Database=hue;Trusted_Connection=True;";
+			var model = new Part();
+			model.Code = "123";
+			model.Description = "Descrição";
+			model.Id = 1;
+			model.Quantity = 23;
+			model.StockLocationId = 7;
+			model.Weight = (decimal)2.76;
+			var dbModel = new DbModel<Part>(model);
 			dbModel.Save();
 		}
 	}
@@ -33,5 +36,27 @@ namespace TestApp
 	public class PhysicalPerson : Person
 	{
 		public DateTime BornDate { get; set; }
+	}
+
+
+	public class Item
+	{
+		public int Id { get; set; }
+
+		public string Code { get; set; }
+
+		public string Description { get; set; }
+	}
+
+	public class Material : Item
+	{
+		public decimal Weight { get; set; }
+
+		public int Quantity { get; set; }
+	}
+
+	public class Part : Material
+	{
+		public int StockLocationId { get; set; }
 	}
 }
