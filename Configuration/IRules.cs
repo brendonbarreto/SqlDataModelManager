@@ -17,5 +17,7 @@ namespace Configuration
 		string ToPropertyName(Type type, string columnName);
 
 		string ToColumnName(Type type, string propertyName);
+
+		string ComplexPropertyName(Type type, string propertyName);
 	}
 }

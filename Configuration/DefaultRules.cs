@@ -83,5 +83,10 @@ namespace Configuration
 			name = culture.TextInfo.ToTitleCase(name).Replace(" ", string.Empty);
 			return name;
 		}
+
+		public string ComplexPropertyName(Type type, string propertyName)
+		{
+			return string.Join("_", propertyName.Split('.'));
+		}
 	}
 }

@@ -46,6 +46,8 @@ namespace TestApp
 		public string Code { get; set; }
 
 		public string Description { get; set; }
+
+		public ItemStatus Status { get; set; }
 	}
 
 	public class Material : Item
@@ -58,5 +60,16 @@ namespace TestApp
 	public class Part : Material
 	{
 		public int StockLocationId { get; set; }
+
+
+	}
+
+	public class ItemStatus
+	{
+		public bool Active { get; set; }
+
+		public bool Deleted { get; set; }
+
+		public int StatusId { get; set; }
 	}
 }

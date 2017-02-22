@@ -48,6 +48,7 @@ namespace DbTransaction
 
 		public void Save(bool saveInheritance = true)
 		{
+			GetTypePersistantProperties();
 			var idProp = GetIdProperty();
 			if (Model != null && idProp != null)
 			{
@@ -87,6 +88,11 @@ namespace DbTransaction
 			});
 
 			return pars;
+		}
+
+		public void GetTypePersistantProperties()
+		{
+			var hue = ModelType.GetProperties();
 		}
 
 		private int Insert()
