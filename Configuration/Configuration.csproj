@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection.cs" />
+    <Compile Include="DbIgnoreAttribute.cs" />
     <Compile Include="DefaultRules.cs" />
     <Compile Include="IRules.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

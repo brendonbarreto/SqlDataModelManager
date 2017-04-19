@@ -92,7 +92,14 @@ namespace DbTransaction
 
 		public void GetTypePersistantProperties()
 		{
-			var hue = ModelType.GetProperties();
+			List<PropertyInfo> dbProps = new List<PropertyInfo>();
+			foreach (var prop in ModelType.GetProperties())
+			{
+				if(!Rules.IgnoreProperty(ModelType, prop.Name))
+				{
+					dbProps.Add(prop);
+				}
+			}
 		}
 
 		private int Insert()

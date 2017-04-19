@@ -88,5 +88,16 @@ namespace Configuration
 		{
 			return string.Join("_", propertyName.Split('.'));
 		}
+
+		public bool IgnoreProperty(Type type, string propertyName)
+		{
+			var prop = type.GetProperty(propertyName);
+			return Attribute.IsDefined(prop, typeof(DbIgnoreAttribute));
+		}
+
+		public string ToRelationshipTableName(Type t1, Type t2)
+		{
+			return string.Concat(PluralizeCamelCase(t1.Name), "To", PluralizeCamelCase(t2.Name));
+		}
 	}
 }
